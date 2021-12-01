@@ -9,109 +9,111 @@ import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
 
-	var ruleE: EditText? = null
-	var readE: EditText? = null
-	var stekE: EditText? = null
-	var nextE: EditText? = null
-	var moveE: EditText? = null
+	var ruleEdit: EditText? = null
+	var readEdit: EditText? = null
+	var stackEdit: EditText? = null
+	var nextEdit: EditText? = null
+	var moveEdit: EditText? = null
 
 	var text: TextView? = null
 	//var but1: Button? = null
 
-	var chasiki = 0
 	var index = 0
 
 	var arr: Array<Array<String>> = arrayOf()
-	var alphabet: Array<String> = arrayOf()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-		val addB: Button = findViewById(R.id.Add)
-		val nextB: Button = findViewById(R.id.NextButton)
+		val addButton: Button = findViewById(R.id.Add)
+		val nextButton: Button = findViewById(R.id.NextButton)
 		arr = Array(100, { Array(5, { "" }) })
 
-		ruleE = findViewById(R.id.Rule)
-		readE = findViewById(R.id.Read)
-		stekE = findViewById(R.id.Stek)
-		nextE = findViewById(R.id.NextRule)
-		moveE = findViewById(R.id.Move)
+		ruleEdit = findViewById(R.id.Rule)
+		readEdit = findViewById(R.id.Read)
+		stackEdit = findViewById(R.id.Stack)
+		nextEdit = findViewById(R.id.NextRule)
+		moveEdit = findViewById(R.id.Move)
 
-		text = findViewById(R.id.text)
+		text = findViewById(R.id.textField)
 
-		addB.setOnClickListener {
+		addButton.setOnClickListener {
 			addRule()
-			ruleE?.setText("")
-			readE?.setText("")
-			stekE?.setText("")
-			nextE?.setText("")
-			moveE?.setText("")
+			ruleEdit?.setText("")
+			readEdit?.setText("")
+			stackEdit?.setText("")
+			nextEdit?.setText("")
+			moveEdit?.setText("")
 		}
-		nextB.setOnClickListener {
-			when (chasiki) {
-				0 -> start()
-			}
+		nextButton.setOnClickListener {
+			start()
 			//ruleE?.isVisible = false
-			readE?.isVisible = false
-			stekE?.isVisible = false
-			nextE?.isVisible = false
-			moveE?.isVisible = false
-			addB?.isVisible = false
+			readEdit?.isVisible = false
+			stackEdit?.isVisible = false
+			nextEdit?.isVisible = false
+			moveEdit?.isVisible = false
+			addButton?.isVisible = false
 		}
 	}
 
 	fun start() {
-		val stroka = ruleE?.text.toString() + "e"
-		var stek = "z"
-		var sost: String = "q0"
-		var out: String = ""
-		var out1: String = ""
+		val str = ruleEdit?.text.toString() + "e"
+		var stack = "z"
+		var state = "q0"
+		var out = ""
+		var out1 = ""
 		var bool = false
-		var sym = false
-		for (ch in stroka) {
-			sym = false
+		var symbol = false
+		for (ch in str) {
+			symbol = false
 			for (i in 0..99) {
 				if (arr[i][1].isNotEmpty()) {
-					sym = ch == arr[i][1][0]
+					symbol = ch == arr[i][1][0]
 					//out = out + arr[i][0] + " " + arr[i][1] + " " + arr[i][2] + " " + arr[i][3] + " " + arr[i][4] + '\n'
 				}
-				if (sym) break
+				if (symbol) break
 			}
-			if (!sym) break
+			if (!symbol) break
 		}
 
-		if (stroka.isNotEmpty()) {
-			for (ch in stroka) {
-				out1=out
+		if (str.isNotEmpty()) {
+			for (ch in str) {
+				out1 = out
 				for (i in 0..10) {
 					if (arr[i][0].isNotEmpty())
-						if (sost == arr[i][0] && ch.toString() == arr[i][1] && stek[0] == arr[i][2][0]
+						if (state == arr[i][0] && ch.toString() == arr[i][1] && stack[0] == arr[i][2][0]
 						) {
-							sost = arr[i][3]
-							if (arr[i][4].length == 1 && arr[i][4][0] == 'e') stek = stek.drop(1)
-							else if (arr[i][4].length == 1) stek = stek
-							else stek = arr[i][1] + stek
-							out = out + stek + '\n'
+							state = arr[i][3]
+							if (arr[i][4].length == 1 && arr[i][4][0] == 'e') {
+								stack = stack.drop(1)
+							} else if (arr[i][4].length == 1) {
+								stack = stack
+							} else {
+								stack = arr[i][1] + stack
+							}
+							out = out + stack + '\n'
 							break
 						}
 				}
-				if(out==out1) bool=true
+				if (out == out1)
+					bool = true
 			}
 		}
-		if (sost != "qf") bool = true
+		if (state != "qf")
+			bool = true
 		when {
-			!sym -> text?.text = "Присутсвуют лишние символы"
-			bool -> text?.text = out + "Цепочка не выпонима"
-			else -> text?.text = out + "Цепочка выполнима"
+			!symbol -> text?.text = "Неизвестные символы в цепочке"
+			bool    -> text?.text = out + "Цепочка невыполнима"
+			else    -> text?.text = out + "Цепочка выполнима"
 		}
 	}
 
 	fun addRule() {
-		arr[index][0] = ruleE?.text.toString()
-		arr[index][1] = readE?.text.toString()
-		arr[index][2] = stekE?.text.toString()
-		arr[index][3] = nextE?.text.toString()
-		arr[index][4] = moveE?.text.toString()
+		arr[index][0] = ruleEdit?.text.toString()
+		arr[index][1] = readEdit?.text.toString()
+		arr[index][2] = stackEdit?.text.toString()
+		arr[index][3] = nextEdit?.text.toString()
+		arr[index][4] = moveEdit?.text.toString()
 //		arr[0][0] = "q0"
 //		arr[0][1] = "a"
 //		arr[0][2] = "z"

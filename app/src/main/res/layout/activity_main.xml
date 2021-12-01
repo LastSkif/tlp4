@@ -17,7 +17,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
 
-	<EditText android:id="@+id/Stek"
+	<EditText android:id="@+id/Stack"
 		android:hint="Стек"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
@@ -43,7 +43,7 @@
 		android:layout_height="wrap_content"/>
 
 	<TextView
-		android:id="@+id/text"
+		android:id="@+id/textField"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
 
